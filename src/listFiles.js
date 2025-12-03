@@ -19,9 +19,10 @@ rl.question('Please enter the doc name to list: ', (docName) => {
     }
   }
 
-  const dossier = path.join(__dirname, docName);
+  const dossier = path.join(__dirname, '..', docName);
 
   listeFichiers(dossier);
 
   rl.close();
 });
+
