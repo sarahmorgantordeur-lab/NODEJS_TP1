@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TP 3 décembre 2025</title>
+</head>
+<body>
+    <h1>TP du 3 décembre 2025 Tordeur Sarah</h1>
+
+    <p>Enoncé :
+
+
+        #  Serveur HTTP complet avec formulaire** <br>
+        <br>
+        ## Objectifs<br>
+        <br>
+        <br>
+    * Servir une page HTML d’accueil (`/`)<br>
+    * Lister les fichiers du dossier `/data` (`/files`)<br>
+    * Lire le contenu d’un fichier (`/file?name=xxx`)<br>
+    * Afficher un formulaire HTML (`/form`)<br>
+    * Enregistrer les données du formulaire dans `./data` (`/submit`, POST)<br>
+        <br>
+---<br>
+<br>
+<br>
+<br>
+# **Fonctionnalités opérationnelles**<br>
+<br>
+| Route            | Méthode | Description                                  |<br>
+| ---------------- | ------- | -------------------------------------------- |<br>
+| `/`              | GET     | Page d’accueil                               |<br>
+| `/files`         | GET     | JSON : liste des fichiers du dossier `data/` |<br>
+| `/file?name=xxx` | GET     | Lire le contenu du fichier                   |<br>
+| `/form`          | GET     | Formulaire HTML pour créer un fichier        |<br>
+| `/submit`        | POST    | Traitement du formulaire et enregistrement   |<br>
+---<br>
+<br>
+# Tests rapides<br>
+<br>
+1. Lancer :<br>
+<br>
+   ```bash<br>
+   node server/index.js<br>
+   ```<br>
+<br>
+2. Ouvrir :<br>
+<br>
+   * [http://localhost:3000](http://localhost:3000)<br>
+   * [http://localhost:3000/form](http://localhost:3000/form)<br>
+   * [http://localhost:3000/files](http://localhost:3000/files)<br>
+<br>
+3. Créer un fichier via le formulaire<br>
+<br>
+4. Vérifier qu’il apparaît dans `./data`<br>
+<br>
+5. Lire via `/file?name=...`<br>
+    </p>
+</body>
+</html>
