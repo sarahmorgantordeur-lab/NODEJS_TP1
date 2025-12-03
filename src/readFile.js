@@ -11,7 +11,7 @@ const rl = readline.createInterface({
 
 rl.question('Please enter the file name to read: ', (fileName) => {
 
-    const filePath = path.join(__dirname, '..', 'data', 'files', fileName);
+    const filePath = path.join(__dirname, '..', 'data', 'submit', fileName);
 
     try {
         const content = fs.readFileSync(filePath, 'utf-8');
