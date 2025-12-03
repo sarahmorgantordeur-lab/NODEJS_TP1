@@ -1,24 +1,25 @@
+// src/contact.js
 const http = require("http");
 const fs = require("fs");
 const path = require("path");
 const { URLSearchParams } = require("url");
 
-const submitDir = path.join(__dirname, "data", "submit");
-if (!fs.existsSync(submitDir)) {
-    fs.mkdirSync(submitDir, { recursive: true });
-}
+// Dossier de stockage des JSON : data/submit au même niveau que src/
+const submitDir = path.join(__dirname, "..", "data", "submit");
+if (!fs.existsSync(submitDir)) fs.mkdirSync(submitDir, { recursive: true });
 
 const server = http.createServer((req, res) => {
 
+    // Servir la page HTML
     if (req.method === "GET" && req.url === "/") {
-        const filePath = path.join(__dirname, "contact.html");
-        fs.readFile(filePath, "utf8", (err, data) => {
+        const htmlPath = path.join(__dirname, "contact.html");
+        fs.readFile(htmlPath, "utf8", (err, data) => {
             if (err) {
                 res.writeHead(500, { "Content-Type": "text/plain" });
-                return res.end("Erreur : impossible de charger la page HTML");
+                return res.end("Erreur lecture HTML");
             }
             res.writeHead(200, { "Content-Type": "text/html; charset=UTF-8" });
-            return res.end(data);
+            res.end(data);
         });
     }
 
@@ -31,22 +32,28 @@ const server = http.createServer((req, res) => {
         });
 
         req.on("end", () => {
-            // Convertit les données form en objet js
+            // Debug : vérifier si les données arrivent
+            console.log("Données reçues :", body);
+
+            // Convertir les données form en objet JS
             const params = new URLSearchParams(body);
             const dataObj = Object.fromEntries(params);
 
             // Nom unique du fichier
-            const timestamp = Date.now();
-            const filePath = path.join(submitDir, `submit_${timestamp}.json`);
+            const filePath = path.join(submitDir, `submit_${Date.now()}.json`);
 
             // Sauvegarde en JSON
             fs.writeFile(filePath, JSON.stringify(dataObj, null, 2), err => {
                 if (err) {
+                    console.error("Erreur écriture JSON :", err);
                     res.writeHead(500, { "Content-Type": "text/plain" });
-                    return res.end("Erreur : impossible d'enregistrer les données.");
+                    return res.end("Erreur lors de l'enregistrement du formulaire.");
                 }
 
-                res.writeHead(200, { "Content-Type": "text/plain" });
+                console.log("Fichier créé :", filePath);
+
+                // Message de succès
+                res.writeHead(200, { "Content-Type": "text/plain; charset=UTF-8" });
                 res.end("Formulaire enregistré avec succès !");
             });
         });
@@ -58,6 +65,7 @@ const server = http.createServer((req, res) => {
     }
 });
 
+// Lancer le serveur sur le port 3000
 server.listen(3000, () => {
     console.log("Serveur lancé sur http://localhost:3000");
 });
